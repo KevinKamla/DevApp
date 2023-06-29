@@ -1,0 +1,43 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button color="primary" [routerLink]="['../tabs']">
+        <ion-icon slot="icon-only" ios="home-outline" md="home-sharp"></ion-icon>
+      </ion-button>
+      <ion-button [routerLink]="['../commande']">
+        <ion-icon color="primary" slot="icon-only" name="cart" ></ion-icon>
+      </ion-button>
+      <div class=" badge d-f-c" *ngIf="lengthCart > 0">{{lengthCart}}</div>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-searchbar placeholder="Recherche..." (ionInput)="onSearchChange($event)"></ion-searchbar>
+  <ion-grid>
+    <ion-row>
+      <ion-col *ngFor="let item of resultSearch">
+        <div>
+          <div class="ion-col"
+            [ngStyle]="{'background-image': 'linear-gradient(rgb(255 255 255)10%, rgb(0 0 0 / 0%) 30%), url('+ item.Photo +')'}">
+            <ion-label>{{item.Prix}} fcfa</ion-label>
+            <div class="bloc-button d-f-c">
+              <ion-buttons slot="end">
+                <ion-button class="add" shape="round" (click)="addCart(item)">
+                  <ion-icon slot="icon-only" ios="add-outline" md="add-sharp"></ion-icon>
+                </ion-button>
+                <ion-button class="detail" [routerLink]="['../dedailproduct',item.id]">
+                 Voir les details
+                </ion-button>
+              </ion-buttons>
+            </div>
+          </div>
+          <ion-label>{{item.Nom}}</ion-label>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

@@ -1,0 +1,29 @@
+ion-tab-bar {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    // background: #ffffff;
+    align-self: center;
+    box-shadow: 0 0 26px var(--ion-box-shadow);
+    border-radius: 30px;
+    margin: 10px;
+
+}
+
+ion-tab-button[aria-selected=true] {
+    color: white;
+    border-radius: 26px;
+    background: var(--ion-color-primary) !important;
+}
+
+ion-tab-button:active {
+    color: white;
+    border-radius: 26px;
+    background: var(--ion-color-primary) !important;
+}
+
+ion-tab-button:checked {
+    color: white;
+    border-radius: 26px;
+    background: var(--ion-color-primary) !important;
+}

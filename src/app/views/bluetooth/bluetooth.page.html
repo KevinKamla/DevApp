@@ -1,0 +1,57 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>bluetooth</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content class="ion-margin">
+  <div class="bloc-toggle d-f-c ion-padding">
+    <ion-toggle checked={{valueChecked}} (ionChange)="toggleChanged($event)"></ion-toggle>
+    <span *ngIf="valueChecked; else otherB"> activé</span>
+    <ng-template #otherB> désactivé</ng-template>
+  </div>
+  <div class="d-f-s ion-padding">
+    <!-- <ion-button (click)="searchAppareil()" expand="block" id="open-loading">
+      Rechercher
+    </ion-button>
+    <ion-button *ngIf="ifScan" (click)="stopScan()" expand="block">
+      Stop scan
+    </ion-button> -->
+  </div>
+
+
+
+
+
+  <div class="container">
+    <ion-button (click)="startScan()">Rechercher</ion-button>
+    <ion-list>
+      <ion-item *ngFor="let device of devices" (click)="connectToDevice(device)">
+        <ion-label>
+          <span>
+            <ion-icon name="phone-portrait"></ion-icon>
+            <ion-item>
+              <b> Nom : {{ device.name }}</b>
+              <b> Id : {{ device.id }}</b>
+              <ion-icon (click)="presentActionSheet(device)" slot="end" name="settings"></ion-icon>
+            </ion-item>
+          </span>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+  </div>
+  <div class="home-container">
+    <ion-card *ngFor="let dev of devices">
+      <div class="ion-text-center" fill="clear">
+        <ion-button slot="start" [routerLink]="['']">
+          <ion-icon name="share" color=""></ion-icon> Se connecter</ion-button>
+      </div>
+    </ion-card>
+  </div>
+
+
+  <!-- <ion-loading trigger="open-loading" message="Loading......." [duration]="1000" spinner="circles"
+    isOpen="true"></ion-loading> -->
+
+</ion-content>

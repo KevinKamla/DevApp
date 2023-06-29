@@ -1,0 +1,18 @@
+[
+    {
+        "id":1,
+        "Titre":"Cameras",
+        "Photo":"assets/images/camera-C3T.jpg"
+
+    },
+    {
+        "id":2,
+        "Titre":"Switch",
+        "Photo":"assets/images/swich-tplink.jpg"
+    },
+    {
+        "id":3,
+        "Titre":"Cables",
+        "Photo":"assets/images/cableRJ45.jpg"
+    }
+]

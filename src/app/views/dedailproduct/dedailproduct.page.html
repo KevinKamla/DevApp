@@ -1,0 +1,102 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title></ion-title>
+    <ion-buttons slot="end">
+      <ion-button color="primary" [routerLink]="['../../tabs']">
+        <ion-icon slot="icon-only" ios="home-outline" md="home-sharp"></ion-icon>
+      </ion-button>
+      <ion-button [routerLink]="['../../commande']">
+        <ion-icon color="primary" slot="icon-only" name="cart"></ion-icon>
+      </ion-button>
+      <div class=" badge d-f-c" *ngIf="lengthCart > 0">{{lengthCart}}</div>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="container">
+    <div class="img">
+      <img src={{produitSelected?.Photo}} />
+      <div class="div-degrade">
+      </div>
+    </div>
+    <div class="title">
+      <ion-label>{{produitSelected?.Nom}}</ion-label>
+    </div>
+    <div class="price d-f-s">
+      <ion-label slot="start">{{produitSelected?.Prix*qty}} Fcfa</ion-label>
+      <ion-button (click)="openModal()" fill="outline" shape="round">
+        Modifier le prix
+      </ion-button>
+    </div>
+    <div class="color-qty d-f-s">
+      <div class="color">
+        <ion-label>Couleur:</ion-label>
+        <div class="item d-f-c">
+          <span class="black {{seleB}}" (click)="selectedColor('black')"></span>
+          <span class="white {{seleW}}" (click)="selectedColor('white')"></span>
+          <span class="grey {{seleG}}" (click)="selectedColor('grey')"></span>
+        </div>
+      </div>
+      <div class="qty">
+        <ion-label>Quantité:</ion-label>
+        <ion-buttons slot="start">
+          <ion-button shape="round" (click)="nbProductSubs()">
+            -
+          </ion-button>
+          <b> {{qty}}</b>
+          <ion-button shape="round" (click)="nbProductAdd()">
+            +
+          </ion-button>
+        </ion-buttons>
+      </div>
+    </div>
+    <div class="describe">
+      <ion-title>Description : </ion-title>
+      <p>{{produitSelected?.Description}}</p>
+    </div>
+    <div class="add-card">
+      <ion-button expand="block" (click)="addCart(produitSelected)">
+        Ajouter à la commande
+      </ion-button>
+    </div>
+  </div>
+
+
+
+    <!-- ================================== modal new price =================================== -->
+
+    <ion-modal id="modal-title" #modale handleBehavior="cycle" [initialBreakpoint]="0.50" isOpen="{{modalIsOpen}}" backdropDismiss="false">
+    <ng-template>
+      <ion-header [translucent]="true" class="ion-no-border">
+        <ion-toolbar color="purple">
+          <ion-title>Nouveau prix</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="closeModal()">
+              <ion-icon slot="icon-only" ios="close-outline" md="close-sharp"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <div class="ion-margin-top block-form">
+          <form [formGroup]="priceGroup" (ngSubmit)="priceForm()">
+            <div class="input-propo">
+              <ion-input type="text" placeholder="Prix" required label="" formControlName="price"></ion-input>
+            </div>
+            <div class="btn d-f-c">
+              <ion-button block type="submit" [disabled]="priceGroup.invalid">
+                Modifier
+              </ion-button>
+            </div>
+          </form>
+        </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+
+</ion-content>

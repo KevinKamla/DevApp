@@ -1,0 +1,41 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Commande</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="container">
+    <ion-list>
+      <div class="item" *ngFor="let item of cart;">
+        <div class="dfc d-f-c">
+          <ion-thumbnail [routerLink]="['../dedailproduct',item.id]">
+            <img src={{item.Photo}} />
+          </ion-thumbnail>
+          <div class="info">
+            <h5>{{item.Nom}}</h5>
+            <p>Quantité: <b>{{item?.Quantite || 1 }} </b><br> Color: <b>{{item?.Color || "Black"}}</b></p>
+          </div>
+          <div class="price-del d-g">
+            <ion-label color="primary">{{item.Prix}} Fcfa</ion-label>
+            <ion-button color="danger" fill="clear" shape="round" (click)="handleDelete(item)">
+              <ion-icon slot="icon-only" name="trash-sharp"></ion-icon>
+            </ion-button>
+          </div>
+        </div>
+      </div>
+    </ion-list>
+    <div class="div-generate d-f-s">
+      <div class="tota-price">
+        <h5>Prix total des {{lengthCart}} élement(s)</h5>
+        <p>{{totalPrice}} Fcfa</p>
+      </div>
+      <ion-button expand="block" *ngIf="lengthCart > 0" (click)="viewFileOption()">
+        Visualiser les factures
+      </ion-button>
+    </div>
+  </div>
+</ion-content>
