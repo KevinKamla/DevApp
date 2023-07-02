@@ -1,0 +1,74 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>project</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <ion-list>
+    <div *ngFor="let item of listProject">
+      <div>{{item.intitule}}</div>
+      <div>{{item.priority}}</div>
+      <div>{{item.associateCommand}}</div>
+    </div>
+  </ion-list>
+
+  <div class="fab-button">
+    <ion-fab-button (click)="openModal()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </div>
+
+
+
+  <!-- ================================== modal title order =================================== -->
+
+  <ion-modal id="modal-title" #modale handleBehavior="cycle" isOpen="{{modalIsOpen}}" backdropDismiss="false">
+    <ng-template>
+      <ion-header [translucent]="true" class="ion-no-border">
+        <ion-toolbar color="purple">
+          <ion-title>Nouveau projet</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="closeModal()">
+              <ion-icon slot="icon-only" ios="close-outline" md="close-sharp"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <div class="ion-margin-top block-form">
+          <form [formGroup]="projectForm" (ngSubmit)="ProjectFormulaire()">
+            <div class="input-propo">
+              <ion-input type="text" placeholder="intitule" required label="" formControlName="intitule"></ion-input>
+              <ion-input type="text" placeholder="priority" required label="" formControlName="priority"></ion-input>
+              <ion-label>Date de départ:</ion-label>
+              <ion-datetime-button datetime="datetimeDepart" required></ion-datetime-button>
+              <ion-label>Date de d'arrivé:</ion-label>
+              <ion-datetime-button datetime="datetimeArrive" required></ion-datetime-button>
+              <ion-input type="text" placeholder="associateCommand" required label=""
+                formControlName="associateCommand"></ion-input>
+            </div>
+            <div class="btn d-f-c">
+              <ion-button block type="submit" [disabled]="projectForm.invalid">
+                Valider
+              </ion-button>
+            </div>
+          </form>
+        </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+  <ion-modal [keepContentsMounted]="true">
+    <ng-template>
+      <ion-datetime #dateDepart id="datetimeDepart"></ion-datetime>
+    </ng-template>
+  </ion-modal>
+  <ion-modal [keepContentsMounted]="true">
+    <ng-template>
+      <ion-datetime #dateArrive id="datetimeArrive"></ion-datetime>
+    </ng-template>
+  </ion-modal>
+
+</ion-content>

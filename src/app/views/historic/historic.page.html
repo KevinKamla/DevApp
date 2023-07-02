@@ -15,12 +15,11 @@
 <ion-content [fullscreen]="true">
   <div class="container">
     <ion-label class="historiqueVide" *ngIf="lenghttabhis == 0">L'historique est vide</ion-label>
+    <ion-label class="infoDelete" *ngIf="infoDelete == 'true'|| lenghttabhis > 0 ">Glissez à gauche pour supprimer</ion-label>
     <ion-list>
-      <div class="item" *ngFor="let item of tabHistory;">
-        <div class="dfc d-f-s" [routerLink]="['../historicdetail', item.id]" routerLinkActive="router-link-active" >
-          <div class="info">
-            <h5>{{item?.infoCommand?.intitule}}</h5>
-          </div>
+      <ion-item-sliding class="item" *ngFor="let item of tabHistory;">
+        <ion-item class="">
+          <ion-label [routerLink]="['../historicdetail', item.id]">{{item?.infoCommand?.intitule}}</ion-label>
           <div class="price-del d-g">
             <ion-label color="primary">{{item?.totalPrice}}Fcfa</ion-label>
             <p *ngIf="item?.print;else notImprime">Imprimé</p>
@@ -28,8 +27,13 @@
               <p>Pas imprimé</p>
             </ng-template>
           </div>
-        </div>
-      </div>
+        </ion-item>
+        <ion-item-options side="end">
+          <ion-item-option color="danger" (click)="deleted(item)">
+            <ion-icon slot="icon-only" name="trash"></ion-icon>
+          </ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
     </ion-list>
   </div>
 </ion-content>

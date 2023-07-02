@@ -41,4 +41,8 @@ export const routes: Routes = [
     path: 'commande',
     loadComponent: () => import('./views/commande/commande.page').then( m => m.CommandePage)
   },
+  {
+    path: 'apropos',
+    loadComponent: () => import('./views/apropos/apropos.page').then( m => m.AproposPage)
+  },
 ];

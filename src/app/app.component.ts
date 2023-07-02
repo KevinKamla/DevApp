@@ -23,5 +23,6 @@ export class AppComponent implements OnInit{
 
   ngOnInit() {
     this.BDservice.initialize();
+    localStorage.setItem("infoDelete","true");
   }
 }

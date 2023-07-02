@@ -1,7 +1,7 @@
 import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ActionSheetController, IonicModule, NavController, ToastController, AlertController, Platform } from '@ionic/angular';
+import { ActionSheetController, IonicModule, NavController, ToastController, AlertController, Platform, ModalController } from '@ionic/angular';
 import { RouterLink } from '@angular/router';
 import * as pdfMake from 'pdfmake/build/pdfmake';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
@@ -10,8 +10,11 @@ import { File } from '@ionic-native/file/ngx';
 import { ServicedbService } from 'src/app/services/database/servicedb.service';
 import * as numberToWords from 'number-to-words';
 import * as moment from 'moment';
-import { DomSanitizer } from '@angular/platform-browser';
-// import { ServiceproduitService } from 'src/app/services/produits/serviceproduit.service';
+import { BluetoothLE, Device } from '@ionic-native/bluetooth-le/ngx';
+// import { BluetoothLE } from '@awesome-cordova-plugins/bluetooth-le/ngx';
+import { PrintserviceService } from 'src/app/services/printer/printservice.service';
+import * as pdfjsLib from 'pdfjs-dist/';
+import { BLE } from '@ionic-native/ble/ngx';
 
 
 @Component({
@@ -20,7 +23,7 @@ import { DomSanitizer } from '@angular/platform-browser';
   styleUrls: ['./printcommande.page.scss'],
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule, RouterLink],
-  providers: [FileOpener, File]
+  providers: [FileOpener, File, BluetoothLE, BLE]
 })
 
 export class PrintcommandePage implements OnInit {
@@ -38,21 +41,31 @@ export class PrintcommandePage implements OnInit {
   idCart: string = "";
   date: any;
   pdf: any;
+  tabDevide: any;
+  selectedPrinter: any;
+  printers: any;
+  printersLenght = 0;
+  modalIsOpen: boolean = false;
+  devices: any[] = [];
+  statusMessage: string = '';
 
   constructor(
     public toastCtrl: ToastController,
+    private alert: AlertController,
+    private modal: ModalController,
     private file: File,
     private fileOpener: FileOpener,
-    private alert: AlertController,
     private BDservice: ServicedbService,
-    // private bdprod: ServiceproduitService, 
+    private bluetoothLE: BluetoothLE,
+    private ble: BLE,
+    private print: PrintserviceService
   ) {
   }
 
   async showToast(message: string) {
     const toast = this.toastCtrl.create({
       message: message,
-      duration: 3000,
+      duration: 4000,
       position: 'top'
     });
     (await toast).present();
@@ -80,6 +93,7 @@ export class PrintcommandePage implements OnInit {
     await alert.present();
   }
 
+
   async ionViewWillEnter() {
     this.CurrentFile = localStorage.getItem("file");
     this.idCart = this.generateUniqueId(new Date());
@@ -87,10 +101,11 @@ export class PrintcommandePage implements OnInit {
     await this.getCart();
     await this.getInfoCommand();
     this.getTotalPrice();
+    this.startScan();
   }
 
   ionViewDidEnter() {
-    this.addHistory(false);
+    // this.addHistory(false);
   }
 
   generateUniqueId(date: Date) {
@@ -100,8 +115,6 @@ export class PrintcommandePage implements OnInit {
     return formattedDate + randomId
   }
 
-
-
   getTotalPrice() {
     if (this.cart?.length > 0) {
       this.totalPrice = 0;
@@ -109,7 +122,7 @@ export class PrintcommandePage implements OnInit {
         this.totalPrice += (item.Prix * (item?.Quantite || 1));
         this.totalQte += item?.Quantite || 1;
       });
-      console.log("this.totalPrice : ", this.totalPrice);
+      // console.log("this.totalPrice : ", this.totalPrice);
 
       this.numberToWords = numberToWords.toWords(this.totalPrice);
     }
@@ -142,7 +155,7 @@ export class PrintcommandePage implements OnInit {
       this.BDservice.remove("Cart");
       this.BDservice.remove("infoCommand");
       localStorage.setItem("nbItem", "0");
-    }else{
+    } else {
       console.log("false");
     }
   }
@@ -258,7 +271,7 @@ export class PrintcommandePage implements OnInit {
           }
         }
       }
-      this.pdf = pdfMake.createPdf(docDefinition);
+      this.pdf = pdfMake.createPdf(docDefinition)
       // this.pdf.open();
       this.Download();
     } catch (error) {
@@ -275,7 +288,7 @@ export class PrintcommandePage implements OnInit {
             ?.writeFile(this.file.dataDirectory, 'lastTest.pdf', blob, { replace: true })
             ?.then(async () => {
               this.addHistory(true);
-              this.showToast('lastTest' + " Telechargé avec succcès");
+              await this.showToast('lastTest' + " Telechargé avec succcès");
               await this.showModal(this.file.dataDirectory, 'lastTest.pdf', 'application/pdf');
             })
         })
@@ -284,7 +297,7 @@ export class PrintcommandePage implements OnInit {
             ?.writeFile(this.file.dataDirectory, 'lastTest.pdf', blob)
             ?.then(async () => {
               this.addHistory(true);
-              this.showToast('lastTest' + " Telechargé avec succcès");
+              await this.showToast('lastTest' + " Telechargé avec succcès");
               await this.showModal(this.file.dataDirectory, 'lastTest.pdf', 'application/pdf');
             })
         });
@@ -292,10 +305,178 @@ export class PrintcommandePage implements OnInit {
 
   }
 
+  // ========================================= Plugin bluetoothLE ==============================================
+
+
+  async SendPDFtoDevice() {
+    // this.scanForDevices();
+    this.startScan();
+    this.openModal();
+  }
+
+  // scanForDevices() {
+  //   let params = {
+  //     "services": [
+  //       "180D",
+  //       "180F"
+  //     ],
+  //     "allowDuplicates": true,
+  //   }
+  //   this.bluetoothLE.startScan(params).subscribe(async (res: any) => {
+  //     await this.showToast("Scan lancé : " + res)
+  //     this.printers = res
+  //     this.printersLenght = this.printers?.length || 0
+  //     console.log(this.printersLenght);
+  //   })
+
+  // }
+
+
+  // sendPDF(selectedDevice: any) {
+  //   this.closeModal()
+  //   this.bluetoothLE.connect({ address: selectedDevice?.address }).subscribe(async (connectedDevice) => {
+  //     await this.showToast("Appareil connecté avec succès !!! " + connectedDevice?.name)
+  //     this.pdf.getBuffer((buffer: Uint8Array) => {
+  //       this.bluetoothLE.write({
+  //         address: connectedDevice?.address,
+  //         service: 'FFE0',
+  //         characteristic: 'FFE1',
+  //         value: this.bluetoothLE.bytesToEncodedString(buffer)
+  //       }).then(async result => {
+  //         await this.showToast("Imprimé avec succès!")
+  //       }).catch((async err => {
+  //         await this.showToast("Erreur d'impression!")
+  //       }))
+  //     })
+  //   });
+  // }
+
+  openModal() {
+    this.modalIsOpen = true
+  }
+
+  closeModal() {
+    this.modalIsOpen = false
+  }
+
+  // async initialize() {
+  //   this.bluetoothLE.initialize().subscribe(async (res) => {
+  //     if (res.status == "enabled") {
+  //       await this.showToast("Le bluetooth était ACTIVE !!")
+  //       this.bluetoothLE.enable();
+  //     }
+  //     if (res.status == "disabled") {
+  //       await this.showToast("Le bluetooth était DESACTIVE !!")
+  //       this.bluetoothLE.enable();
+  //     }
+  //   });
+  // }
+
+
+  // ========================================= Plugin BLE ==============================================
+
+  startScan() {
+    this.devices = [];
+    this.ble
+      .scan([], 10)
+      .subscribe((device) => this.onDeviceDiscovered(device));
+  }
+
+  async onDeviceDiscovered(device: any) {
+    console.log('Discovered ' + JSON.stringify(device, null, 2));
+    this.devices.push(device);
+    await this.showToast("Devices chargés : !"+ device)
+  }
+
+  connectToDevice(device: any) {
+
+    this.ble
+      .connect(device.id)
+      .subscribe(
+        async (peripheral) => {
+          await this.onConnected(peripheral)
+          this.pdf.getBuffer((buffer: Uint8Array) => {
+            this.ble.write(device?.address,'FF10','FF11',buffer)
+            .then(async result => {
+              await this.showToast("Imprimé avec succès! : "  +result)
+            }).catch((async err => {
+              await this.showToast("Erreur d'impression! : "+ err)
+            }))
+          })
+        },
+        async (peripheral) => await this.onDeviceDisconnected(peripheral)
+      );
+  }
+
+  async onConnected(peripheral: any) {
+    this.statusMessage = 'Connected to ' + (peripheral.name + peripheral.id);
+    await this.showToast(this.statusMessage)
+  }
+
+  async onDeviceDisconnected(peripheral: any) {
+    this.statusMessage = 'Disconnected ' + (peripheral.name || peripheral.id);
+    await this.showToast(this.statusMessage)
+  }
+
+
+
 
   ngOnInit() {
-
-
+    this.startScan();
+    this.ble.enable().then((res) =>{
+      this.showToast("Bluetooth activé avec succes : "+res)
+    })
+    .catch((res) =>{
+      this.showToast("Erreur d'activation du Bluetooth : "+res)
+    })
   }
-}
 
+
+
+
+
+
+
+
+
+  // sendPDF0() {
+  //  
+  //   this.pdf.getBuffer((res: any) => {
+  //     // Charger le contenu du fichier PDF dans pdf.js
+
+  //     let loadingTask = pdfjsLib.getDocument({ data: res });
+  //     loadingTask.promise.then((dataPdf: any) => {
+  //       // Récupérer la première page du document PDF
+  //       dataPdf.getPage(1).then((page: any) => {
+  //         let scale = 1.5;
+  //         let viewport = page.getViewport({ scale: scale });
+
+  //         // Préparer un élément canvas pour afficher le contenu de la page
+  //         let canvas = document.getElementById('pdf-canvas') as HTMLCanvasElement;
+  //         let context = canvas?.getContext('2d');
+  //         canvas.height = viewport.height;
+  //         canvas.width = viewport.width;
+
+  //         // Afficher le contenu de la page sur l'élément canvas
+  //         let renderContext = {
+  //           canvasContext: context,
+  //           viewport: viewport
+  //         };
+  //         page.render(renderContext).promise.then(() => {
+  //           // Créer une image à partir du contenu du canvas
+  //           let img = new Image();
+  //           img.src = canvas.toDataURL();
+  //           console.log(img);
+
+  //           // let decodedData = atob(img.src.split(',')[1]);
+  //           // let data = new Uint8Array(decodedData.length);
+  //           // for (let i = 0; i < decodedData.length; i++) {
+  //           //   data[i] = decodedData.charCodeAt(i);
+  //           // }
+  //         
+  //         });
+  //       });
+  //     });
+  //   })
+  // }
+}

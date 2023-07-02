@@ -24,8 +24,8 @@ export const routes: Routes = [
         loadComponent: () => import('../views/statistic/statistic.page').then( m => m.StatisticPage)
       },
       {
-        path: 'apropos',
-        loadComponent: () => import('../views/apropos/apropos.page').then( m => m.AproposPage)
+        path: 'project',
+        loadComponent: () => import('../views/project/project.page').then( m => m.ProjectPage)
       },
     ],
   },

@@ -17,6 +17,7 @@ export class HistoricPage implements OnInit {
   cart: any
   tabHistory: any[] = [];
   lenghttabhis = 0;
+  infoDelete: any;
 
   constructor(
     private actionSheetController: ActionSheetController,
@@ -52,8 +53,15 @@ export class HistoricPage implements OnInit {
     console.log(this.tabHistory);
   }
 
+  async deleted(item: any) {
+    this.BDservice.removeItem("ListCart", item)
+    await this.getHistory();
+    localStorage.setItem("infoDelete","false");
+  }
+
   async ngOnInit() {
     await this.getHistory();
+    this.infoDelete = localStorage.getItem("infoDelete")
   }
 
 }

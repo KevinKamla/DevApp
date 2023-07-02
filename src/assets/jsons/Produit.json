@@ -29,7 +29,7 @@
         "Nom": "Câble Ethernet Rj45",
         "Prix": 2500,
         "Description": "Cable Ethernet Rj45 Lan Haute Vitesse, Pour Ordinateur Portable, Routeur De Surveillance, 1m / 5m / 10m / 15m ",
-        "Photo":"assets/images/cableRJ45.jpg"
+        "Photo": "assets/images/cableRJ45.jpg"
     },
     {
         "id": 5,
@@ -37,7 +37,7 @@
         "Nom": "Switch 8 ports",
         "Prix": 2000,
         "Description": "TP-Link : 8-PORT-GIGABIT EASY SMART SWICH, TP-Link.",
-        "Photo":"assets/images/swich-tplink.jpg"
+        "Photo": "assets/images/swich-tplink.jpg"
     },
     {
         "id": 6,
@@ -45,7 +45,7 @@
         "Nom": "Switch 5 ports",
         "Prix": 1000,
         "Description": "TP-Link : 5-PORT-GIGABIT EASY SMART SWICH, TP-Link.",
-        "Photo":"assets/images/Switch-5-ports.jpg"
+        "Photo": "assets/images/Switch-5-ports.jpg"
     },
     {
         "id": 7,
@@ -53,15 +53,38 @@
         "Nom": "Renkforce RF-4270245 ",
         "Prix": 1500,
         "Description": "Contrairement à de nombreux autres appareils conventionnels de 4 ports, ce séparateur de réseau a été optimisé pour une faible consommation d'énergie et ne nécessite aucun bloc d'alimentation. Choisissez une clé USB.",
-        "Photo":"assets/images/swich-4.jpg"
+        "Photo": "assets/images/swich-4.jpg"
     },
     {
         "id": 8,
         "idCategorie": 2,
         "Nom": "Switch TL-SG1024D ",
-        "Prix": 500,
+        "Prix": 1200,
         "Description": "TL-SG1024D Switch rackable/de bureau 24 ports Gigabit, 24 ports RJ45 10/100/1000 Mbps, Technologie de gestion d'alimentation innovante.",
-        "Photo":"assets/images/switch-24.png"
+        "Photo": "assets/images/switch-24.png"
+    },
+    {
+        "id": 9,
+        "idCategorie": 5,
+        "Nom": "GCM Soft ",
+        "Prix": 120000,
+        "Description": "Logiciel vous permettant de faire la gestion totale de votre hôpital.",
+        "Photo": "assets/images/gcm.png"
+    },
+    {
+        "id": 10,
+        "idCategorie": 4,
+        "Nom": "Formation des utilisateurs ",
+        "Prix": 100000,
+        "Description": "Nous formons vos emplyés à l'utilisation des nouveaux outils de TIC",
+        "Photo": "assets/images/formation.jpg"
+    },
+    {
+        "id": 11,
+        "idCategorie": 4,
+        "Nom": "Main d'oeuvre",
+        "Prix": 50000,
+        "Description": "",
+        "Photo": "assets/images/main.jpg"
     }
 ]
-

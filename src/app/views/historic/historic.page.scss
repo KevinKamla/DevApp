@@ -29,11 +29,24 @@
     position: absolute;
 }
 
-.item {
-    margin: 15px;
+.infoDelete{
+    width: 100%;
+    text-align: center;
+    display: block;
+    margin-top: 12px;
+    color: grey;
+}
+
+ion-list{
+    padding: 10px;
+}
+
+ion-item-sliding {
     box-shadow: 0 0 10px var(--ion-box-shadow);
     padding-inline: 8px;
     border-radius: 10px;
+    border: 1px solid #e6e6ff;
+    margin-block: 11px;
 
     .price-del {
 
@@ -54,12 +67,16 @@
         }
     }
 
-    h5 {
+    ion-label {
         font-weight: 600;
         font-size: 14px;
-        margin: 0;
+        display: flex;
+        align-items: center;
     }
 
-
-
+    
 }
+
+// ion-item-option{
+//     width: 35%;
+// }
