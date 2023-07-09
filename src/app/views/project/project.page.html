@@ -6,13 +6,29 @@
 
 <ion-content [fullscreen]="true">
 
-  <ion-list>
-    <div *ngFor="let item of listProject">
-      <div>{{item.intitule}}</div>
-      <div>{{item.priority}}</div>
-      <div>{{item.associateCommand}}</div>
-    </div>
-  </ion-list>
+  <div class="container ion-padding">
+    <ion-list>
+      <ion-item-sliding *ngFor="let item of listProject" >
+        <ion-item class="item d-f-c-a">
+          <div class="progress">0
+            <div class="progress-bar" [style.height.%]="number">0</div>
+          </div>
+          <div class="info d-g" [routerLink]="['../../taks', item.id]">
+            <b>{{item?.intitule}}</b>
+            <div>#{{item?.numberTasks}} Tache(s)</div>
+          </div>
+        </ion-item>
+        <ion-item-options side="end">
+          <ion-item-option color="danger" (click)="deleted(item)">
+            <ion-icon slot="icon-only" name="trash"></ion-icon>
+          </ion-item-option>
+          <ion-item-option color="danger" (click)="update(item)">
+            <ion-icon slot="icon-only" name="trash"></ion-icon>
+          </ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+    </ion-list>
+  </div>
 
   <div class="fab-button">
     <ion-fab-button (click)="openModal()">
@@ -38,23 +54,33 @@
       </ion-header>
       <ion-content class="ion-padding">
         <div class="ion-margin-top block-form">
-          <form [formGroup]="projectForm" (ngSubmit)="ProjectFormulaire()">
+          <form [formGroup]="projectForm">
             <div class="input-propo">
-              <ion-input type="text" placeholder="intitule" required label="" formControlName="intitule"></ion-input>
-              <ion-input type="text" placeholder="priority" required label="" formControlName="priority"></ion-input>
-              <ion-label>Date de départ:</ion-label>
+              <ion-input type="text" placeholder="intitule" required label="Intitulé" labelPlacement="floating"
+                formControlName="intitule"></ion-input>
+              <ion-select value="" formControlName="associateCommand" placeholder="Selctionner une Commande"
+                label="Commande associé" labelPlacement="floating">
+                <ion-select-option *ngFor="let item of tabHistory" [value]="item.infoCommand?.intitule">
+                  {{item.infoCommand?.intitule }} {{item.infoCommand?.client}}</ion-select-option>
+              </ion-select>
+              <ion-label>Date de de début:</ion-label>
               <ion-datetime-button datetime="datetimeDepart" required></ion-datetime-button>
-              <ion-label>Date de d'arrivé:</ion-label>
+              <ion-label>Date de de fin:</ion-label>
               <ion-datetime-button datetime="datetimeArrive" required></ion-datetime-button>
-              <ion-input type="text" placeholder="associateCommand" required label=""
-                formControlName="associateCommand"></ion-input>
-            </div>
-            <div class="btn d-f-c">
-              <ion-button block type="submit" [disabled]="projectForm.invalid">
-                Valider
-              </ion-button>
             </div>
           </form>
+          <ion-label>Liste des tâches par ordre de réalisation</ion-label>
+          <div *ngFor="let item of tasks; let i = index" class="d-f-s formArrayName">
+            <ion-input type="text" placeholder="Tache"  [(ngModel)]='tasks[i+1]' required label="Tache n°{{i+1}}"
+              labelPlacement="floating"></ion-input>
+            <ion-button (click)="removeTask(tasks[i+1])" *ngIf="tasks.length != i+1">-</ion-button>
+          </div>
+          <div class="btn d-f-c">
+            <ion-button block type="submit" (click)="ProjectFormulaire()" [disabled]="projectForm.invalid">
+              Valider
+            </ion-button>
+          </div>
+          <!-- <ion-button (click)="addTask()" fill="outline">Ajouter une nouvelle tâche</ion-button> -->
         </div>
       </ion-content>
     </ng-template>

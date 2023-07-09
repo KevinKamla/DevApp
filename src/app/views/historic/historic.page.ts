@@ -54,9 +54,11 @@ export class HistoricPage implements OnInit {
   }
 
   async deleted(item: any) {
-    this.BDservice.removeItem("ListCart", item)
+    this.BDservice.removeItem("ListCart", item);
     await this.getHistory();
-    localStorage.setItem("infoDelete","false");
+    localStorage.setItem("infoDelete", "false");
+    this.infoDelete = localStorage.getItem("infoDelete")
+    await this.getHistory();
   }
 
   async ngOnInit() {

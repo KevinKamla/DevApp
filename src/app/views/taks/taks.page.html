@@ -1,0 +1,75 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Taches</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <div class="container ion-padding">
+    <ion-list>
+      <div *ngFor="let item of projectSelected?.tasks" class="item d-g">
+        <!-- <div class="" [routerLink]="['../../taks', item.id]"> -->
+          <ion-badge [ngClass]="{'badge-red':(item.priority == 'Difficile'),'badge-blue':(item.priority == 'Normale'),
+             'badge-green':(item.priority == 'Facile')}">{{item?.priority}}</ion-badge>
+          <b>{{item}}</b>
+          <div class="in-progress">En progression ({{item?.progress}}%)</div>
+          <div class="progress" >
+            <div class="progress-bar" [style.width.%]="number" ></div>
+          </div>
+        <!-- </div> -->
+      </div>
+    </ion-list>
+  </div>
+
+  <div class="fab-button">
+    <ion-fab-button (click)="openModal()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </div>
+
+
+
+  <!-- ================================== modal title order =================================== -->
+
+  <ion-modal id="modal-title" #modale handleBehavior="cycle" isOpen="{{modalIsOpen}}" backdropDismiss="false">
+    <ng-template>
+      <ion-header [translucent]="true" class="ion-no-border">
+        <ion-toolbar color="purple">
+          <ion-title>Nouveau projet</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="closeModal()">
+              <ion-icon slot="icon-only" ios="close-outline" md="close-sharp"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <div class="ion-margin-top block-form">
+          <form [formGroup]="projectForm">
+            <div class="input-propo">
+              <ion-select required value="" formControlName="priority" placeholder="Selctionner la priorité"
+                label="Priorité" labelPlacement="floating">
+                <ion-select-option *ngFor="let pri of priority" [value]="pri">{{ pri }}</ion-select-option>
+              </ion-select>
+            </div>
+          </form>
+          <div *ngFor="let item of tasks; let i = index" class="d-f-s formArrayName">
+            <ion-input type="text" placeholder="Tache" [(ngModel)]='tasks[i+1]' required label="Tache n°{{i+1}}"
+              labelPlacement="floating"></ion-input>
+            <ion-button (click)="removeTask(tasks[i+1])" *ngIf="tasks.length != i+1">-</ion-button>
+          </div>
+          <div class="btn d-f-c">
+            <ion-button block type="submit" (click)="ProjectFormulaire()" [disabled]="projectForm.invalid">
+              Ajouter
+            </ion-button>
+          </div>
+        </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+</ion-content>

@@ -15,7 +15,7 @@
 <ion-content [fullscreen]="true">
   <div class="container">
     <ion-label class="historiqueVide" *ngIf="lenghttabhis == 0">L'historique est vide</ion-label>
-    <ion-label class="infoDelete" *ngIf="infoDelete == 'true'|| lenghttabhis > 0 ">Glissez à gauche pour supprimer</ion-label>
+    <ion-label class="infoDelete" *ngIf="infoDelete == 'true' && lenghttabhis > 0 ">Glissez à gauche pour supprimer</ion-label>
     <ion-list>
       <ion-item-sliding class="item" *ngFor="let item of tabHistory;">
         <ion-item class="">

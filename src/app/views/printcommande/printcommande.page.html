@@ -1,7 +1,10 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-buttons slot="start" *ngIf="lengthCart">
+    <!-- <ion-buttons slot="start" *ngIf="lengthCart">
       <ion-button [routerLink]="['../commande']"><ion-icon name="arrow-back"></ion-icon></ion-button>
+    </ion-buttons> -->
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
     </ion-buttons>
     <ion-title>Visualisation</ion-title>
     <ion-buttons slot="end">
@@ -13,7 +16,7 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  
+
   <div *ngIf="CurrentFile == 'proforma'">
     <div class="print-pdf" #divPrint>
       <div class="print-wrapper" id="print-wrapper">
@@ -63,13 +66,10 @@
       </div>
       <div class="div-generate d-f-s">
         <ion-buttons slot="start">
-          <ion-button class="imprimer" shape="round" (click)="SendPDFtoDevice()">
-            Imprimer
-          </ion-button>
-          <ion-button class="partager" shape="round">
+          <ion-button class="imprimer" shape="round" (click)="handleShare('Facture-Proforma')">
             Partager
           </ion-button>
-          <ion-button class="partager" shape="round" (click)="createPdf('Facture-Proforma')">
+          <ion-button class="partager" shape="round" (click)="createPdf('Facture-Proforma',true)">
             Telecharger
           </ion-button>
         </ion-buttons>
@@ -110,7 +110,7 @@
     </div>
     <div class="div-generate d-f-s">
       <ion-buttons slot="start">
-        <ion-button class="imprimer" shape="round" (click)="createPdf('Facture-Preforma')">
+        <ion-button class="imprimer" shape="round" (click)="createPdf('Devis',true)">
           Imprimer
         </ion-button>
         <ion-button class="partager" shape="round">
@@ -154,7 +154,7 @@
     </div>
     <div class="div-generate d-f-s">
       <ion-buttons slot="start">
-        <ion-button class="imprimer" shape="round" (click)="createPdf('Facture-Preforma')">
+        <ion-button class="imprimer" shape="round" (click)="createPdf('Facture',true)">
           Imprimer
         </ion-button>
         <ion-button class="partager" shape="round">
@@ -163,31 +163,5 @@
       </ion-buttons>
     </div>
   </div>
-
-  <!-- ================================== modal title order =================================== -->
-
-  <ion-modal id="modal-title" #modale [initialBreakpoint]="0.75" isOpen="{{modalIsOpen}}" backdropDismiss="false"
-    [breakpoints]="[0.25,0.50,0.75.1]">
-    <ng-template>
-      <ion-header [translucent]="true" class="ion-no-border">
-        <ion-toolbar color="purple">
-          <ion-title>Selectionner une imprimante</ion-title>
-          <ion-buttons slot="end">
-            <ion-button (click)="closeModal()">
-              <ion-icon slot="icon-only" ios="close-outline" md="close-sharp"></ion-icon>
-            </ion-button>
-          </ion-buttons>
-        </ion-toolbar>
-      </ion-header>
-      <ion-content class="ion-padding">
-        <ion-label class="deviceVide" *ngIf="printersLenght == 0">Pas d'imprimante disponible</ion-label>
-        <ion-list>
-          <div *ngFor="let item of devices">
-            <ion-label (click)="connectToDevice(item)">{{item}}</ion-label>
-          </div>
-        </ion-list>
-      </ion-content>
-    </ng-template>
-  </ion-modal>
 
 </ion-content>

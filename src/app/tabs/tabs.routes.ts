@@ -16,16 +16,16 @@ export const routes: Routes = [
         pathMatch: 'full',
       },
       {
-        path: 'bluetooth',
-        loadComponent: () => import('../views/bluetooth/bluetooth.page').then( m => m.BluetoothPage)
-      },
-      {
         path: 'statistic',
         loadComponent: () => import('../views/statistic/statistic.page').then( m => m.StatisticPage)
       },
       {
         path: 'project',
         loadComponent: () => import('../views/project/project.page').then( m => m.ProjectPage)
+      },
+      {
+        path: 'apropos',
+        loadComponent: () => import('../views/apropos/apropos.page').then( m => m.AproposPage)
       },
     ],
   },

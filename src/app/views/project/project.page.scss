@@ -16,10 +16,64 @@
     align-items: center;
 }
 
+.d-f-c-a {
+    display: flex;
+    justify-content: center;
+}
+
 .d-f-s {
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+
+.container {
+    ion-list {
+        margin-bottom: 40px;
+
+        ion-item-sliding {
+            margin-block: 1.5rem;
+
+
+            .item {
+                border-radius: 7px;
+                contain: content;
+                box-shadow: 1px 1px 9px -2px #a39e9e;
+
+                .progress {
+                    background: #cbcaca;
+                    width: 2%;
+                    color: transparent;
+                    height: 100%;
+
+                    .progress-bar {
+                        background: #25c877;
+                        position: absolute;
+                        bottom: 0;
+                        width: 2%;
+                    }
+                }
+
+                .info {
+                    background: var(--ion-background-container);
+                    width: 98%;
+                    padding: 10px;
+                    gap: 10px;
+
+                    div {
+                        font-size: 12px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.btn {
+    // position: absolute;
+    // bottom: 10px;
+    margin: 20px;
 }
 
 .fab-button {
@@ -31,8 +85,8 @@
 
     ion-fab-button {
         // --background: var(--ion-color-purple);
-        height: 50px;
-        width: 50px;
+        height: 45px;
+        width: 45px;
 
         ion-icon {
             font-size: 2.5rem;
@@ -41,24 +95,42 @@
 
 }
 
-ion-modal#modal-title {
-    
-}
 
 ion-modal ion-input {
-    border: 2px solid #c5c5c5;
-    border-radius: 10px 10px 0 0;
-    margin-bottom: 15px;
+    border-bottom: 1px solid #c5c2c2;
+}
+
+ion-modal ion-select {
+    border-bottom: 1px solid #c5c2c2;
+    margin-bottom: 10px;
+    ;
 }
 
 ion-modal ion-title {
     font-size: 18px;
 }
 
-ion-modal ion-label{
+ion-modal ion-label {
     color: grey;
 }
 
-ion-modal ion-datetime-button{
-    margin: 12px;
+ion-modal ion-datetime-button {
+    margin-block: 12px;
+    justify-content: start;
+}
+
+ion-modal ion-button {
+    text-transform: none;
+}
+
+ion-modal .formArrayName {
+    gap: 5px;
+
+    ion-button {
+        --border-radius: 50%;
+        height: 30px;
+        width: 30px;
+        --background: red;
+        color: white;
+    }
 }

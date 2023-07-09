@@ -42,7 +42,7 @@ export const routes: Routes = [
     loadComponent: () => import('./views/commande/commande.page').then( m => m.CommandePage)
   },
   {
-    path: 'apropos',
-    loadComponent: () => import('./views/apropos/apropos.page').then( m => m.AproposPage)
+    path: 'taks/:id',
+    loadComponent: () => import('./views/taks/taks.page').then( m => m.TaksPage)
   },
 ];
