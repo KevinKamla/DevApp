@@ -1,0 +1,228 @@
+.d-f {
+    display: flex;
+}
+
+.d-b {
+    position: relative;
+    transform: translateY(0);
+    transition: all 0.5s ease;
+}
+
+.d-b-n {
+    top:26px
+}
+
+
+.d-n {
+    position: relative;
+    transition: all 0.5s ease;
+    transform: translateY(-50%);
+}
+
+.d-g {
+    display: grid;
+}
+
+.d-f-c {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.d-f-c-a {
+    display: flex;
+    justify-content: center;
+}
+
+.d-f-s {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.search-segment {
+    background: var(--ion-background-container);
+    ion-searchbar {
+        padding: 5px;
+    }
+
+}
+
+.container {
+
+    .taskVide {
+        width: 100%;
+        top: 50%;
+        text-align: center;
+        position: absolute;
+    }
+
+    .infoDelete {
+        width: 100%;
+        text-align: center;
+        display: block;
+        margin-top: 12px;
+        color: grey;
+    }
+
+
+    ion-list {
+        margin-bottom: 40px;
+
+        ion-item-sliding {
+            margin-block: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0px 0px 7px 2px var(--ion-box-shadow);
+
+            // ion-item {
+            //     --background: var(--ion-box-shadow);
+            //     border-radius: 15px;
+            // }
+
+            .iteme {
+                border-radius: 7px;
+                box-shadow: 1px 1px 9px -2px #a39e9e;
+                // background: var(--ion-background-container);
+                width: 100%;
+                padding: 5px;
+                font-size: 14px;
+
+                b {
+                    margin-block: 8px;
+                }
+
+                .autor {
+                    color: #a39e9e;
+                }
+
+                .progress {
+                    background: #cbcaca;
+                    color: transparent;
+                    height: 10px;
+                    border-radius: 0 20px 20px 0;
+
+                    .progress-bar {
+                        // background: #25c877;
+                        height: 10px;
+                        border-radius: 0 20px 20px 0;
+                    }
+                }
+
+
+                ion-badge {
+                    width: 25%;
+                    margin-block: 4px;
+                }
+
+                .badge-red {
+                    background: #ffcece;
+                    color: #ff4141;
+                }
+
+                .badge-blue {
+                    background: #ced1ff;
+                    color: #4d50ff;
+                }
+
+                .badge-green {
+                    background: #c0f9b8;
+                    color: #19bd46;
+                }
+
+                .progress-red {
+                    background: #ff4141;
+                }
+
+                .progress-blue {
+                    background: #4d50ff;
+                }
+
+                .progress-green {
+                    background: #19bd46;
+                }
+
+                .in-progress {
+                    margin-left: 13px;
+                    margin-bottom: 5px;
+                }
+
+                // b {
+                //     margin-block: 5px;
+                // }
+
+                .in-progress::before {
+                    display: block;
+                    content: "";
+                    background: var(--ion-color-primary);
+                    border-radius: 50%;
+                    height: 10px;
+                    width: 10px;
+                    position: relative;
+                    top: 12px;
+                    right: 14px;
+                }
+            }
+        }
+    }
+}
+
+.btn {
+    margin: 20px;
+}
+
+.fab-button {
+    display: flex;
+    justify-content: flex-start;
+    position: fixed;
+    bottom: 15px;
+    width: 95%;
+    transform: translateX(90%);
+
+
+    ion-fab-button {
+        // --background: var(--ion-color-purple);
+        height: 45px;
+        width: 45px;
+
+        ion-icon {
+            font-size: 2.5rem;
+        }
+    }
+
+}
+
+
+ion-modal ion-input {
+    border-bottom: 1px solid #c5c2c2;
+}
+
+ion-modal ion-select {
+    border-bottom: 1px solid #c5c2c2;
+    margin-bottom: 10px;
+    ;
+}
+
+ion-modal ion-title {
+    font-size: 18px;
+}
+
+ion-modal ion-label {
+    color: grey;
+}
+
+ion-modal ion-datetime-button {
+    margin-block: 12px;
+    justify-content: start;
+}
+
+ion-modal .formArrayName {
+    gap: 5px;
+
+    ion-button {
+        --border-radius: 50%;
+        height: 30px;
+        width: 30px;
+        --background: red;
+        color: white;
+    }
+}

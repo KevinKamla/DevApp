@@ -1,0 +1,82 @@
+.d-f {
+    display: flex;
+}
+
+.d-b {
+    display: block;
+}
+
+.d-g {
+    display: grid;
+}
+
+.d-f-c {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.d-f-s {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.historiqueVide {   
+    width: 100%;
+    top: 50%;
+    text-align: center;
+    position: absolute;
+}
+
+.infoDelete{
+    width: 100%;
+    text-align: center;
+    display: block;
+    margin-top: 12px;
+    color: grey;
+}
+
+ion-list{
+    padding: 10px;
+}
+
+ion-item-sliding {
+    box-shadow: 0 0 10px var(--ion-box-shadow);
+    padding-inline: 8px;
+    border-radius: 10px;
+    border: 1px solid #e6e6ff;
+    margin-block: 11px;
+
+    .price-del {
+
+        ion-label {
+            font-weight: 600;
+            background: var(--ion-color-primary);
+            padding: 6px;
+            color: #ffffff;
+            border-radius: 10px;
+            height: fit-content;
+            margin-top: 15px;
+        }
+
+        p {
+            color: var(--ion-color-success);
+            font-size: 15px;
+            font-weight: 600;
+        }
+    }
+
+    ion-label {
+        font-weight: 600;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+    }
+
+    
+}
+
+// ion-item-option{
+//     width: 35%;
+// }

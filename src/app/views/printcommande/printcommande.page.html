@@ -1,0 +1,167 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <!-- <ion-buttons slot="start" *ngIf="lengthCart">
+      <ion-button [routerLink]="['../commande']"><ion-icon name="arrow-back"></ion-icon></ion-button>
+    </ion-buttons> -->
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Visualisation</ion-title>
+    <ion-buttons slot="end">
+      <ion-button color="primary" [routerLink]="['../tabs']">
+        <ion-icon slot="icon-only" ios="home-outline" md="home-sharp"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <div *ngIf="CurrentFile == 'proforma'">
+    <div class="print-pdf" #divPrint>
+      <div class="print-wrapper" id="print-wrapper">
+        <h3>FACTURE PROFORMA {{idCart}}</h3>
+        <div class="header">
+          <div>
+            <h4>Prestataire</h4>
+            <p>GEC-INFORMATIQUE</p>
+            <p>N°RC/YAO/2014/A/5701</p>
+            <p>N°CONT: M052217331893P</p>
+            <p>5544 YAOUNDE</p>
+            <p>TEL: 00(237)693-538-376</p>
+            <p>contacts@gec-informatique.com</p>
+            <ion-img [src]="['assets/icon/logoGEC.jpg']"></ion-img>
+          </div>
+          <div class="header-clent">
+            <h4>Client</h4>
+            <p>{{infoCommand?.client}}</p>
+            <p>{{infoCommand?.adresse}}</p>
+            <p>{{infoCommand?.ville}}</p>
+          </div>
+        </div>
+        <h3>Intitulé: {{infoCommand?.intitule}}</h3>
+        <table [border]="['0']" class="ion-margin">
+          <tr class="header-tr">
+            <th>Qte</th>
+            <th>Design</th>
+            <th>P.u(Fcfa)</th>
+            <th>P.T(Fcfa)</th>
+          </tr>
+          <tr *ngFor="let item of cart">
+            <td>{{item?.Quantite || 1}}</td>
+            <td>{{item.Nom}}</td>
+            <td>{{item.Prix}}</td>
+            <td>{{item.Prix * (item?.Quantite || 1)}}</td>
+          </tr>
+          <tr class="bottom-tr">
+            <th>{{totalQte}}</th>
+            <th>Total</th>
+            <th></th>
+            <th>{{totalPrice}}</th>
+          </tr>
+        </table>
+        <p>Arretée, la presente facture pro forma à la somme de {{numberToWords}} francs CFA</p>
+        <b>Merci pour votre confiance !</b>
+        <b>{{date}}</b>
+      </div>
+      <div class="div-generate d-f-s">
+        <ion-buttons slot="start">
+          <ion-button class="imprimer" shape="round" (click)="handleShare('Facture-Proforma')">
+            Partager
+          </ion-button>
+          <ion-button class="partager" shape="round" (click)="createPdf('Facture-Proforma',true)">
+            Telecharger
+          </ion-button>
+        </ion-buttons>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="CurrentFile == 'devis'">
+    <div class="print-pdf" #divPrint>
+      <div class="print-wrapper" id="print-wrapper">
+        <h3> Devis</h3>
+        <div class="header">
+          <ion-img [src]="['assets/icon/logoGEC.jpg']"></ion-img>
+        </div>
+        <table>
+          <tr class="header-tr">
+            <th>Designation</th>
+            <th>Prix</th>
+          </tr>
+          <tr>
+            <td data-column="First Name">Camera</td>
+            <td data-column="First Name">20000</td>
+          </tr>
+          <tr>
+            <td data-column="Job Title">cable</td>
+            <td data-column="Last Name">50800fcfa</td>
+          </tr>
+          <tr>
+            <td data-column="Last Name">Router</td>
+            <td data-column="Job Title">14000fcfa</td>
+          </tr>
+          <tr class="tr-price-total">
+            <td data-column="Last Name">Prix total</td>
+            <td data-column="Job Title">140000fcfa</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="div-generate d-f-s">
+      <ion-buttons slot="start">
+        <ion-button class="imprimer" shape="round" (click)="createPdf('Devis',true)">
+          Imprimer
+        </ion-button>
+        <ion-button class="partager" shape="round">
+          Partager
+        </ion-button>
+      </ion-buttons>
+    </div>
+  </div>
+
+
+  <div *ngIf="CurrentFile == 'facture'">
+    <div class="print-pdf" #divPrint>
+      <div class="print-wrapper" id="print-wrapper">
+        <h3> Facture</h3>
+        <div class="header">
+          <ion-img [src]="['assets/icon/logoGEC.jpg']"></ion-img>
+        </div>
+        <table>
+          <tr class="header-tr">
+            <th>Designation</th>
+            <th>Prix</th>
+          </tr>
+          <tr>
+            <td data-column="First Name">Camera</td>
+            <td data-column="First Name">20000fcfa</td>
+          </tr>
+          <tr>
+            <td data-column="Job Title">cable</td>
+            <td data-column="Last Name">50800fcfa</td>
+          </tr>
+          <tr>
+            <td data-column="Last Name">Router</td>
+            <td data-column="Job Title">14000fcfa</td>
+          </tr>
+          <tr class="tr-price-total">
+            <td data-column="Last Name">Prix total</td>
+            <td data-column="Job Title">140000fcfa</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="div-generate d-f-s">
+      <ion-buttons slot="start">
+        <ion-button class="imprimer" shape="round" (click)="createPdf('Facture',true)">
+          Imprimer
+        </ion-button>
+        <ion-button class="partager" shape="round">
+          Partager
+        </ion-button>
+      </ion-buttons>
+    </div>
+  </div>
+
+</ion-content>

@@ -1,0 +1,84 @@
+<ion-header [translucent]="false" class="ion-no-border">
+  <ion-toolbar>
+    <ion-title>DEVAPP</ion-title>
+    <ion-buttons slot="end">
+      <ion-button [routerLink]="['../../search']" routerLinkActive="router-link-active">
+        <ion-icon slot="start" name="search"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="container">
+    <ion-label>{{date}}</ion-label>
+    <div class="bloc-stat">
+      <canvas #lineCanvas></canvas>
+    </div>
+    <div class="div-share">
+      <ion-button slot="start" (click)="openModal()" *ngIf="lengthCart === 0 ; else templateName">
+        <ion-icon name="cart-outline" color=""></ion-icon>
+        <p> Nouvelle commande</p>
+      </ion-button>
+      <ng-template #templateName>
+        <ion-button slot="start" [routerLink]="['../../category']">
+          <ion-icon name="cart-outline" color=""></ion-icon>
+          <p> Finaliser la commande en cours</p>
+        </ion-button>
+      </ng-template>
+    </div>
+    <ion-buttons>
+      <ion-button slot="start" [routerLink]="['../../listproduct',-1]">
+        <div class="d-b">
+          <ion-icon name="eye-sharp"></ion-icon>
+          <p> Parcourir les appareils</p>
+        </div>
+      </ion-button>
+      <ion-button slot="start" [routerLink]="['../../historic']">
+        <div class="d-b">
+          <ion-icon name="newspaper-outline"></ion-icon>
+          <p> Historique</p>
+        </div>
+      </ion-button>
+    </ion-buttons>
+  </div>
+
+
+  <!-- ================================== modal title order =================================== -->
+
+  <ion-modal id="modal-title" #modale handleBehavior="cycle" [initialBreakpoint]="0.75" isOpen="{{modalIsOpen}}" backdropDismiss="false"
+    [enterAnimation]="enterAnimation" [leaveAnimation]="leaveAnimation">
+    <ng-template>
+      <ion-header [translucent]="true" class="ion-no-border">
+        <ion-toolbar color="purple">
+          <ion-title>Informations sur la commande</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="closeModal()">
+              <ion-icon slot="icon-only" ios="close-outline" md="close-sharp"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <div class="ion-margin-top block-form">
+          <form [formGroup]="titleForm" (ngSubmit)="CommandeForm()">
+            <div class="input-propo">
+              <ion-input type="text" placeholder="Intitule" required label="" formControlName="intitule"></ion-input>
+              <ion-input type="text" placeholder="Client" required label="" formControlName="client"></ion-input>
+              <ion-input type="text" placeholder="Adresse" required label="" formControlName="adresse"></ion-input>
+              <ion-input type="text" placeholder="Ville" required label="" formControlName="ville"></ion-input>
+            </div>
+            <div class="btn d-f-c">
+              <ion-button block type="submit" [disabled]="titleForm.invalid" [routerLink]="['../../category']">
+                Valider
+              </ion-button>
+            </div>
+          </form>
+        </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+
+
+</ion-content>

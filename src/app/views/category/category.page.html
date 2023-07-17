@@ -1,0 +1,27 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Catégorie</ion-title>
+    <ion-buttons slot="end">
+      <ion-button [routerLink]="['../commande']">
+        <ion-icon color="primary" slot="icon-only" name="cart" ></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <div class=" badge d-f-c" *ngIf="lengthCart > 0">{{lengthCart}}</div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-list>
+    <div *ngFor="let cat of tabCategory">
+      <ion-item [routerLink]="['../listproduct',cat.id]">
+        <ion-thumbnail>
+          <img src={{cat.Photo}} />
+        </ion-thumbnail>
+        <ion-label>{{cat.Titre}}</ion-label>
+      </ion-item>
+    </div>
+  </ion-list>
+</ion-content>

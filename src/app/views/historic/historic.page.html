@@ -1,0 +1,39 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+      <ion-title>Hisrorique</ion-title>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button color="danger" fill="clear" shape="round" (click)="presentActionSheet()">
+        <ion-icon slot="icon-only" name="trash-sharp"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="container">
+    <ion-label class="historiqueVide" *ngIf="lenghttabhis == 0">L'historique est vide</ion-label>
+    <ion-label class="infoDelete" *ngIf="infoDelete == 'true' && lenghttabhis > 0 ">Glissez à gauche pour supprimer</ion-label>
+    <ion-list>
+      <ion-item-sliding class="item" *ngFor="let item of tabHistory;">
+        <ion-item class="">
+          <ion-label [routerLink]="['../historicdetail', item.id]">{{item?.infoCommand?.intitule}}</ion-label>
+          <div class="price-del d-g">
+            <ion-label color="primary">{{item?.totalPrice}}Fcfa</ion-label>
+            <p *ngIf="item?.print;else notImprime">Imprimé</p>
+            <ng-template #notImprime>
+              <p>Pas imprimé</p>
+            </ng-template>
+          </div>
+        </ion-item>
+        <ion-item-options side="end">
+          <ion-item-option color="danger" (click)="deleted(item)">
+            <ion-icon slot="icon-only" name="trash"></ion-icon>
+          </ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+    </ion-list>
+  </div>
+</ion-content>

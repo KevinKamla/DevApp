@@ -1,0 +1,105 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title></ion-title>
+    <ion-buttons slot="end">
+      <ion-button shape="round" id="open-modal-search" [routerLink]="['../../tabs']">
+        <ion-icon color="primary" slot="icon-only" ios="home-outline" md="home-sharp"></ion-icon>
+      </ion-button>
+      <ion-button [routerLink]="['../../search']">
+        <ion-icon color="primary" slot="icon-only" ios="search-outline" md="search-sharp"></ion-icon>
+      </ion-button>
+      <ion-button [routerLink]="['../../commande']">
+        <ion-icon color="primary" slot="icon-only" name="cart"></ion-icon>
+      </ion-button>
+      <div class=" badge d-f-c" *ngIf="lengthCart > 0">{{lengthCart}}</div>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-grid>
+    <ion-row>
+      <ion-col *ngFor="let item of listPRoduit">
+        <div>
+          <div class="ion-col"
+            [ngStyle]="{'background-image': 'linear-gradient(rgb(255 255 255)10%, rgb(0 0 0 / 0%) 30%), url('+ item.Photo +')'}">
+            <ion-label>{{item.Prix}} fcfa</ion-label>
+            <div class="bloc-button d-f-c" *ngIf="idCat != -1">
+              <ion-buttons slot="end">
+                <ion-button class="add" shape="round" (click)="addCart(item)">
+                  <ion-icon slot="icon-only" ios="add-outline" md="add-sharp"></ion-icon>
+                </ion-button>
+                <ion-button class="detail" [routerLink]="['../../dedailproduct',item.id]">
+                  Voir les details
+                </ion-button>
+              </ion-buttons>
+            </div>
+          </div>
+          <ion-label>{{item.Nom}}</ion-label>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+
+  <div class="fab-button" *ngIf="idCat == -1">
+    <ion-fab-button (click)="openModal()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </div>
+
+
+
+
+  <!-- ================================== modal add project =================================== -->
+
+  <ion-modal id="modal-title" #modale handleBehavior="cycle" isOpen="{{modalIsOpen}}" backdropDismiss="false">
+    <ng-template>
+      <ion-header [translucent]="true" class="ion-no-border">
+        <ion-toolbar color="purple">
+          <ion-title>Nouveau produit ou service</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="closeModal()">
+              <ion-icon slot="icon-only" ios="close-outline" md="close-sharp"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <div class="ion-margin-top block-form">
+          <form [formGroup]="projectForm">
+            <div class="input-propo">
+              <ion-input type="text" placeholder="Nom" required label="Nom" labelPlacement="floating"
+                formControlName="Nom"></ion-input>
+              <ion-input type="number" placeholder="Prix" required label="Prix" labelPlacement="floating"
+                formControlName="Prix"></ion-input>
+              <ion-input type="text" placeholder="Description" required label="Description" labelPlacement="floating"
+                formControlName="Description"></ion-input>
+
+              <ion-select value="" formControlName="idCategorie" placeholder="Selctionner une Catégorie"
+                label="Catégorie " labelPlacement="floating">
+                <ion-select-option *ngFor="let item of listCategorie;" [value]="item.id">
+                  {{item.Titre }}</ion-select-option>
+              </ion-select>
+              <ion-label>Image</ion-label>
+              <div class="blocImg d-f-s">
+                <ion-button (click)="takePicture()" fill="clear"><ion-icon name="camera" slot="icon-only"></ion-icon></ion-button>
+                <ion-img [src]="images"></ion-img>
+              </div>
+
+            </div>
+          </form>
+          <div class="btn d-f-c">
+            <ion-button block type="submit" (click)="ProjectFormulaire()" [disabled]="projectForm.invalid">
+              Valider
+            </ion-button>
+          </div>
+        </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+</ion-content>

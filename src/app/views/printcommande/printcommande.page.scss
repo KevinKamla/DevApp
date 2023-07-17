@@ -1,0 +1,122 @@
+.header {
+    margin-inline: 15px;
+    font-size: 9px;
+    display: flex;
+    justify-content: space-between;
+
+    h4 {
+        font-weight: 600;
+        font-size: 12px;
+    }
+
+    .header-clent {
+        text-align: end;
+    }
+}
+
+.print-wrapper {
+    margin: 10px;
+    margin-bottom: 80px;
+
+    h3 {
+        width: 100%;
+        text-align: center;
+        font-size: 11px;
+        font-weight: 900;
+    }
+
+    table {
+        border: 1px solid gray;
+
+        .header-tr {
+            margin-block: 20px;
+        }
+
+        td,
+        th {
+            padding: 5px;
+            font-size: 11px;
+            text-align: center;
+        }
+
+        .tr-price-total {
+            margin-top: 20px;
+        }
+    }
+
+    ion-img {
+        margin: 5px;
+        height: 60px;
+        width: 61px;
+    }
+
+    p:not(.header > div > p) {
+        margin: 0 15px;
+        margin-top: -12px;
+        font-size: 9px;
+        text-align: justify;
+    }
+
+    b {
+        font-size: 10px;
+        width: 100%;
+        display: block;
+        text-align: end;
+        margin-top: 15px;
+    }
+
+}
+
+.div-generate {
+    position: fixed;
+    height: 55px;
+    bottom: 0px;
+    width: 100%;
+    border-radius: 15px 15px 0 0;
+    background: var(--ion-backgrounf-print);
+    padding: 10px;
+
+    ion-buttons {
+        display: flex;
+        justify-content: space-around;
+
+        .imprimer {
+            background-color: var(--ion-color-primary);
+        }
+
+        .partager {
+            background-color: var(--ion-color-success);
+        }
+
+        ion-button {
+            text-transform: none;
+            color: white;
+            width: 30%;
+            font-size: 11px;
+            border-radius: 6px;
+        }
+    }
+}
+
+ion-modal#modal-title {
+    ion-header{
+        border-top: 1px solid gray;
+    }
+
+    ion-label {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 30px;
+        box-shadow: 0px 0px 3px var(--ion-box-shadow);
+        border-radius: 9px;
+        margin: 10px;
+        font-size: 15px;
+    }
+
+    ion-title {
+        font-size: 16px;
+    }
+
+    // .deviceVide {}
+}

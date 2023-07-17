@@ -1,0 +1,143 @@
+<ion-header [translucent]="true" class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Taches</ion-title>
+    <ion-buttons slot="end" *ngIf="segmentSelected == 'tasks'">
+      <ion-button (click)="openSearch()">
+        <ion-icon slot="start" name="search"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <div class="search-segment" [ngClass]="{'d-b':(openerSearch == true),'d-n':(openerSearch == false), 'd-b-n':(segmentSelected == 'diagramme')}">
+    <ion-searchbar *ngIf="segmentSelected == 'tasks'" placeholder="Recherche les tâches"
+      (ionChange)="onSearchChange($event)"></ion-searchbar>
+    <ion-segment value="tasks" (ionChange)="segmentChanged($event)">
+      <ion-segment-button value="tasks">
+        <ion-label>Tâches</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="diagramme">
+        <ion-label>Diagramme</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </div>
+</ion-header>
+
+
+<ion-content [fullscreen]="true" *ngIf="segmentSelected == 'tasks'">
+
+  <div class="container ion-padding">
+    <ion-label class="taskVide" *ngIf="nbTask == 0">L'historique est vide</ion-label>
+    <ion-label class="infoDelete" *ngIf="infoDelete == 'true' && nbTask > 0 ">Glissez à gauche pour
+      supprimer</ion-label>
+    <ion-list>
+      <ion-item-sliding *ngFor="let item of projectSelected?.tasks">
+        <ion-item>
+          <div class="iteme d-g">
+            <ion-badge [ngClass]="{'badge-red':(item.priority == 'Difficile'),'badge-blue':(item.priority == 'Normale'),
+             'badge-green':(item.priority == 'Facile')}">{{item?.priority}}</ion-badge>
+            <b>{{item?.elt}}</b>
+            <div class="autor" *ngIf="item.autor">Attribué à <b>{{item?.autor}}</b></div>
+            <div class="in-progress">En progression ({{item?.progress}}%)</div>
+            <div class="progress">
+              <div class="progress-bar" [ngClass]="{'progress-red':(number <= 15),
+              'progress-blue':(number > 15 && number < 85 ), 'progress-green':(number > 85)}" [style.width.%]="number">
+              </div>
+            </div>
+          </div>
+        </ion-item>
+        <ion-item-options side="end">
+          <ion-item-option color="success" (click)="openModalupdate(item)">
+            <ion-icon slot="icon-only" name="create"></ion-icon>
+          </ion-item-option>
+          <ion-item-option color="danger" (click)="handleDeleteTask(item)">
+            <ion-icon slot="icon-only" name="trash"></ion-icon>
+          </ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+    </ion-list>
+  </div>
+
+  <div class="fab-button">
+    <ion-fab-button (click)="openModal()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </div>
+
+
+  <!-- ================================== modal title order =================================== -->
+
+  <ion-modal id="modal-title" #modale handleBehavior="cycle" isOpen="{{modalIsOpen}}" backdropDismiss="false">
+    <ng-template>
+      <ion-header [translucent]="true" class="ion-no-border">
+        <ion-toolbar color="purple">
+          <ion-title>Nouveau projet</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="closeModal()">
+              <ion-icon slot="icon-only" ios="close-outline" md="close-sharp"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <div class="ion-margin-top block-form">
+          <div *ngFor="let item of tasks; let i = index" class="d-f-s formArrayName">
+            <ion-input type="text" placeholder="Tache" [(ngModel)]='tasks[i+1]' required label="Tache n°{{nbTask+1}}"
+              labelPlacement="floating"></ion-input>
+            <ion-button (click)="removeTask(tasks[i+1])" *ngIf="tasks.length != i+1">-</ion-button>
+          </div>
+          <div class="btn d-f-c">
+            <ion-button block type="submit" (click)="addTask()">
+              Ajouter
+            </ion-button>
+          </div>
+        </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+
+  <!-- ================================== modal task prioriry and autor =================================== -->
+
+  <ion-modal id="modal-title" #modale handleBehavior="cycle" [initialBreakpoint]="0.75" isOpen="{{modalIsOpener}}"
+    backdropDismiss="false">
+    <ng-template>
+      <ion-header [translucent]="true" class="ion-no-border">
+        <ion-toolbar color="purple">
+          <ion-title>Informations sur la tâche</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="closeModalupdate()">
+              <ion-icon slot="icon-only" ios="close-outline" md="close-sharp"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <form [formGroup]="projectForm">
+          <div class="ion-margin-top block-form">
+            <div class="input-propo">
+              <ion-input type="text" formControlName="intitule" placeholder="Responsable" label="Responsable"
+                labelPlacement="floating" [(ngModel)]="responsable"></ion-input>
+              <ion-select value="" [(ngModel)]="priori" formControlName="dateDepart"
+                placeholder="Selctionner une priorité" label="Priorité" labelPlacement="floating">
+                <ion-select-option *ngFor="let item of priority" [value]="item">
+                  {{item}}</ion-select-option>
+              </ion-select>
+            </div>
+            <div class="btn d-f-c">
+              <ion-button block type="submit" (click)="update()">
+                Valider
+              </ion-button>
+            </div>
+          </div>
+        </form>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+</ion-content>
+
+<ion-content [fullscreen]="true" *ngIf="segmentSelected == 'diagramme' " class="ion-padding">
+  <app-diagram></app-diagram>
+</ion-content>

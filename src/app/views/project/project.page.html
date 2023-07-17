@@ -1,0 +1,97 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>project</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <div class="container ion-padding">
+    <ion-list>
+      <ion-item-sliding *ngFor="let item of listProject" >
+        <ion-item class="item d-f-c-a">
+          <div class="progress">0
+            <div class="progress-bar" [style.height.%]="number">0</div>
+          </div>
+          <div class="info d-g" [routerLink]="['../../taks', item.id]">
+            <b>{{item?.intitule}}</b>
+            <div>#{{item?.numberTasks || 0 }} Tache(s)</div>
+          </div>
+        </ion-item>
+        <ion-item-options side="end">
+          <ion-item-option color="danger" (click)="handleDeleteProject(item)">
+            <ion-icon slot="icon-only" name="trash"></ion-icon>
+          </ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+    </ion-list>
+  </div>
+
+  <div class="fab-button">
+    <ion-fab-button (click)="openModal()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </div>
+
+
+
+  <!-- ================================== modal add project =================================== -->
+
+  <ion-modal id="modal-title" #modale handleBehavior="cycle" isOpen="{{modalIsOpen}}" backdropDismiss="false">
+    <ng-template>
+      <ion-header [translucent]="true" class="ion-no-border">
+        <ion-toolbar color="purple">
+          <ion-title>Nouveau projet</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="closeModal()">
+              <ion-icon slot="icon-only" ios="close-outline" md="close-sharp"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <div class="ion-margin-top block-form">
+          <form [formGroup]="projectForm">
+            <div class="input-propo">
+              <ion-input type="text" placeholder="intitule" required label="Intitulé" labelPlacement="floating"
+                formControlName="intitule"></ion-input>
+              <ion-select value="" formControlName="associateCommand" placeholder="Selctionner une Commande"
+                label="Commande associé" labelPlacement="floating">
+                <ion-select-option *ngFor="let item of tabHistory" [value]="item.infoCommand?.intitule">
+                  {{item.infoCommand?.intitule }} {{item.infoCommand?.client}}</ion-select-option>
+              </ion-select>
+              <ion-label>Date de de début:</ion-label>
+              <ion-datetime-button datetime="datetimeDepart" required></ion-datetime-button>
+              <ion-label>Date de de fin:</ion-label>
+              <ion-datetime-button datetime="datetimeArrive" required></ion-datetime-button>
+            </div>
+          </form>
+          <ion-label>Liste des tâches par ordre de réalisation</ion-label>
+          <div *ngFor="let item of tasks; let i = index" class="d-f-s formArrayName">
+            <ion-input type="text" placeholder="Tache"  [(ngModel)]='tasks[i+1]' required label="Tache n°{{i+1}}"
+              labelPlacement="floating"></ion-input>
+            <ion-button (click)="removeTask(tasks[i+1])" *ngIf="tasks.length != i+1">-</ion-button>
+          </div>
+          <div class="btn d-f-c">
+            <ion-button block type="submit" (click)="ProjectFormulaire()" [disabled]="projectForm.invalid">
+              Valider
+            </ion-button>
+          </div>
+          <!-- <ion-button (click)="addTask()" fill="outline">Ajouter une nouvelle tâche</ion-button> -->
+        </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+  <ion-modal [keepContentsMounted]="true">
+    <ng-template>
+      <ion-datetime #dateDepart id="datetimeDepart"></ion-datetime>
+    </ng-template>
+  </ion-modal>
+  <ion-modal [keepContentsMounted]="true">
+    <ng-template>
+      <ion-datetime #dateArrive id="datetimeArrive"></ion-datetime>
+    </ng-template>
+  </ion-modal>
+
+</ion-content>
